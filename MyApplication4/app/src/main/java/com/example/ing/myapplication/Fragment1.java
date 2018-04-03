@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -109,6 +110,15 @@ public class Fragment1 extends Fragment {
                 @Override
                 public void run() {
                     Forms form =new Forms();
+                    String name = ((EditText)getView().findViewById(R.id.editText)).getText().toString();
+                    String date = ((EditText)getView().findViewById(R.id.editText3)).getText().toString();
+                    String cate = ((Spinner)getView().findViewById(R.id.spinner)).getSelectedItem().toString();
+                    String comm = ((EditText)getView().findViewById(R.id.editText2)).getText().toString();
+                    form.setFormName(name);
+                    form.setFormDate(date);
+                    form.setFormCategory(cate);
+                    form.setFormComment(comm);
+
                     formDatabase.daoAccess().insertOnlySingleForm(form);
                 }
             }) .start();
