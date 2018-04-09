@@ -21,6 +21,8 @@ public interface DaoAccess {
     void insertMultipleForms (List<Forms> moviesList);
     @Query("SELECT * FROM Forms WHERE formId = :formId")
     Forms fetchOneFormsbyFormId (int formId);
+    @Query("SELECT * FROM Forms")
+    List<Forms> fetchAllForms();
     @Update
     void updateMovie (Forms forms);
     @Delete

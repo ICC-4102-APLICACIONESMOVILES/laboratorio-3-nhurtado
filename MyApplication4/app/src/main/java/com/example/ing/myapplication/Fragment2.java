@@ -1,5 +1,6 @@
 package com.example.ing.myapplication;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class Fragment2 extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private FormDatabase formDatabase;
+    private static final String DATABASE_NAME = "forms_db";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -77,13 +80,21 @@ public class Fragment2 extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        formDatabase = Room.databaseBuilder(getActivity().getApplicationContext(),
+                FormDatabase.class, DATABASE_NAME)
+                .allowMainThreadQueries()
+                .build();
 
+        List<Forms> forms = formDatabase.daoAccess().fetchAllForms();
         ListView lv = (ListView) getView().findViewById(R.id.List);
         List<String> your_array_list = new ArrayList<String>();
-        your_array_list.add("List 1");
-        your_array_list.add("List 2");
+        for (int i=0; i<forms.size(); i++) {
+            String aux = forms.get(forms.size()-i-1).getFormName()+" "
+                    +forms.get(forms.size()-i-1).getFormDate()+" "
+                    +forms.get(forms.size()-i-1).getFormComment();
+            your_array_list.add(aux);
+        }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,your_array_list );
-
         lv.setAdapter(arrayAdapter);
     }
 
