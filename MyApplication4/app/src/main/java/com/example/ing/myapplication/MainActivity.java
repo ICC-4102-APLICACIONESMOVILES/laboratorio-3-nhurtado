@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String DATABASE_NAME = "forms_db";
     private FormDatabase formDatabase;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
+        //fragment = null;
+        fragment = new Fragment0();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_layout, fragment);
+        ft.commit();
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -58,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
 
-                        Fragment fragment = null;
+
 
                         int id = menuItem.getItemId();
 
@@ -70,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             fragment = new Fragment3();
                         } else if (id == R.id.logout){
                             Logout();
+                            fragment = new Fragment0();
                         }
 
                         if (fragment != null) {
@@ -113,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("email", email);
             editor.putString("pass", pass);
             editor.apply();
-            navigationView.getMenu().getItem(3).setChecked(false);
         }
 
     }

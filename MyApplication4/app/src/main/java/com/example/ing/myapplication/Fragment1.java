@@ -1,5 +1,6 @@
 package com.example.ing.myapplication;
 
+import android.app.FragmentTransaction;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.Uri;
@@ -122,6 +123,11 @@ public class Fragment1 extends Fragment {
                     formDatabase.daoAccess().insertOnlySingleForm(form);
                 }
             }) .start();
+            Toast.makeText(getActivity(),"Formulario creado exitosamente!!",Toast.LENGTH_LONG).show();
+            Fragment fragment = new Fragment0();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.frame_layout, fragment);
+            ft.commit();
         }
     };
 

@@ -1,41 +1,27 @@
 package com.example.ing.myapplication;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Spinner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Fragment2.OnFragmentInteractionListener} interface
+ * {@link Fragment0.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Fragment2#newInstance} factory method to
+ * Use the {@link Fragment0#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment2 extends Fragment {
+public class Fragment0 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private FormDatabase formDatabase;
-    private static final String DATABASE_NAME = "forms_db";
-    private ListView lv;
-    private ArrayAdapter<String> arrayAdapter;
-
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -43,7 +29,7 @@ public class Fragment2 extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Fragment2() {
+    public Fragment0() {
         // Required empty public constructor
     }
 
@@ -53,11 +39,11 @@ public class Fragment2 extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment2.
+     * @return A new instance of fragment Fragment0.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment2 newInstance(String param1, String param2) {
-        Fragment2 fragment = new Fragment2();
+    public static Fragment0 newInstance(String param1, String param2) {
+        Fragment0 fragment = new Fragment0();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,39 +64,7 @@ public class Fragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment2, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        formDatabase = Room.databaseBuilder(getActivity().getApplicationContext(),
-                FormDatabase.class, DATABASE_NAME)
-                .build();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                lv = (ListView) getView().findViewById(R.id.List);
-                List<Forms> forms = formDatabase.daoAccess().fetchAllForms();
-                List<String> your_array_list = new ArrayList<String>();
-                for (int i=0; i<forms.size(); i++) {
-                    String aux = forms.get(forms.size()-i-1).getFormName()+" "
-                            +forms.get(forms.size()-i-1).getFormDate()+" "
-                            +forms.get(forms.size()-i-1).getFormComment();
-                    your_array_list.add(aux);
-                }
-                arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,your_array_list );
-                Handler mainHandler = new Handler(getActivity().getMainLooper());
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        lv.setAdapter(arrayAdapter);
-                    }
-                });
-            }
-        }) .start();
-
+        return inflater.inflate(R.layout.fragment_fragment0, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
