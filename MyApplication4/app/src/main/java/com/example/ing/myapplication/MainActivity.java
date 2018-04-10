@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,16 +17,31 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
     private static final String DATABASE_NAME = "forms_db";
     private FormDatabase formDatabase;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String restoredText = prefs.getString("email", null);
+        if (restoredText == null) {
+            Intent intent = new Intent(this, Login.class);
+            startActivityForResult(intent,1);
+        }
 
 
         formDatabase = Room.databaseBuilder(getApplicationContext(),
@@ -33,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -51,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
                             fragment = new Fragment2();
                         } else if (id == R.id.nav_third_fragment) {
                             fragment = new Fragment3();
+                        } else if (id == R.id.logout){
+                            Logout();
                         }
 
                         if (fragment != null) {
@@ -71,6 +90,40 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int request, int result, Intent data)
+    {
+        super.onActivityResult(request, result, data);
+        if(request==1)
+        {
+            String email=data.getStringExtra("M");
+            String pass=data.getStringExtra("P");
+            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            editor.putString("email", email);
+            editor.putString("pass", pass);
+            editor.apply();
+            navigationView.getMenu().getItem(3).setChecked(false);
+        }
+
+    }
+
+    public void Logout(){
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.clear();
+        editor.apply();
+        Intent intent = new Intent(this, Login.class);
+        startActivityForResult(intent,1);
     }
 }
 

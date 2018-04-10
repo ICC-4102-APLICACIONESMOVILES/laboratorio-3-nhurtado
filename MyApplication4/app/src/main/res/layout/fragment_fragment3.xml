@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ing.myapplication.Fragment3">
+    tools:context="com.example.ing.myapplication.Fragment3"
+    android:layout_marginTop="56dp">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="20dp"
         android:text="Resumen" />
 
     <TextView
